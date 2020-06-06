@@ -79,7 +79,7 @@ theme: yilia
 deploy: 
   type: git
 #  repository: https://github.com/fayeloh/fayeloh.github.io.git
-  repository: https://gh_token/github.com/fayeloh/fayeloh.github.io.git
+  repository: https://gh_token@github.com/fayeloh/fayeloh.github.io.git
   branch: master
 
 

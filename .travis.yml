@@ -1,39 +1,30 @@
 language: node_js
-# nodejs版本
-node_js: 
-    - '6'
+node_js: stable
 
-# Travis-CI Caching
+# assign build branches
+branches:
+  only:
+    - sourceCode
+
+# cache this directory
 cache:
   directories:
     - node_modules
-
-
+    #- themes 主题没有更改时可以缓存
 # S: Build Lifecycle
+before_install:
+  - npm install -g hexo-cli # 安装 hexo
+  - git clone https://github.com/renyuzh/hexo-theme-next.git themes/next # 这个是博主的，主题没有更改时不用每次都下载安装一遍
+
 install:
-  - npm install
+  - npm install # 安装 package.json 中的插件
 
-before_script:
-
-# 无其他依赖项所以执行npm run build 构建就行了
 script:
-  - npm run build
+  - hexo generate
 
-after_script:
-  - cd ./dist
-  - git init
-  - git config user.name "${U_NAME}"
-  - git config user.email "${U_EMAIL}"
-  - git add .
-  - git commit -m "Update tools"
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
+after_success:
+  - git config --global user.name "fayeloh"
+  - git config --global user.email "2247878900@qq.com"
+  - sed -i "s/gh_token/${GH_TOKEN}/g" _config.yml #使用travisCI中配置的token替换掉_config.yml中对应的占位符
+  - hexo deploy
 # E: Build LifeCycle
-
-#指定分支，只有指定的分支提交时才会运行脚本
-branches:
-  only:
-    - master
-env:
- global:
-   # 我将其添加到了travis-ci的环境变量中
-   #- GH_REF: github.com/yimogit/metools.git 
