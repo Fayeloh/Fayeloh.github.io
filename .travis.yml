@@ -1,31 +1,38 @@
+# 指定语言环境
 language: node_js
-node_js: stable
-
-# assign build branches
-branches:
-  only:
-    - sourceCode
-
-# cache this directory
+# 指定需要sudo权限
+sudo: required
+# 指定node_js版本
+node_js: 
+  - 7.9.0
+# 指定缓存模块，可选。缓存可加快编译速度。
 cache:
   directories:
     - node_modules
-    #- themes 主题没有更改时可以缓存
-# S: Build Lifecycle
+
+# 指定博客源码分支，因人而异。hexo博客源码托管在独立repo则不用设置此项
+branches:
+  only:
+    - hexo 
+
 before_install:
-  - npm install -g hexo-cli # 安装 hexo
-  - git clone https://github.com/renyuzh/hexo-theme-next.git themes/next # 这个是博主的，主题没有更改时不用每次都下载安装一遍
+  - npm install -g hexo-cli
 
+# Start: Build Lifecycle
 install:
-  - npm install # 安装 package.json 中的插件
+  - npm install
+  - npm install hexo-deployer-git --save
 
+# 执行清缓存，生成网页操作
 script:
+  - hexo clean
   - hexo generate
 
-after_success:
-  - git config --global user.name "fayeloh"
-  - git config --global user.email "2247878900@qq.com"
-  - sed -i "s/gh_token/${GH_TOKEN}/g" _config.yml #使用travisCI中配置的token替换掉_config.yml中对应的占位符
+# 设置git提交名，邮箱；替换真实token到_config.yml文件，最后depoy部署
+after_script:
+  - git config user.name "fayeloh"
+  - git config user.email "2247878900@qq.com"
+  # 替换同目录下的_config.yml文件中gh_token字符串为travis后台刚才配置的变量，注意此处sed命令用了双引号。单引号无效！
+  - sed -i "s/gh_token/${GH_TOKEN}/g" ./_config.yml
   - hexo deploy
-# E: Build LifeCycle
-#替换git config信息为你自己的,GH_REF的值更改为你的仓库地址.
+# End: Build LifeCycle
