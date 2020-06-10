@@ -78,8 +78,8 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 
   type: git
-  repository: https://github.com/fayeloh/fayeloh.github.io.git
-#  repository: https://GH_TOKEN@github.com/fayeloh/fayeloh.github.io.git
+#  repository: https://github.com/fayeloh/fayeloh.github.io.git
+  repository: https://GH_TOKEN@github.com/fayeloh/fayeloh.github.io.git
   branch: master
 
 
