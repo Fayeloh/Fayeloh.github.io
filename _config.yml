@@ -81,6 +81,5 @@ theme: yilia
 #  repository: https://github.com/fayeloh/fayeloh.github.io.git
 #  repo: https://gh_token@github.com/fayeloh/fayeloh.github.io.git
 #  branch: master
-deploy:
-  type: ''
+
 
