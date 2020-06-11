@@ -26,6 +26,9 @@ after_success:
   - git config --global user.name "fayeloh"
   - git config --global user.email "2247878900@qq.com"
   - sed -i "s/gh_token/${GH_TOKEN}/g" _config.yml #使用travisCI中配置的token替换掉_config.yml中对应的占位符
+  - git add .
+  - git commit -m "Update docs"
+  - git push --force --quiet "https://${hexoBlog}@${GH_REF}" master:master
   - hexo deploy
 # E: Build LifeCycle
 #替换git config信息为你自己的,GH_REF的值更改为你的仓库地址.
