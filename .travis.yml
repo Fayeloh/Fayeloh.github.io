@@ -1,0 +1,46 @@
+language: node_js
+node_js: stable    # 要安装的node版本为当前的稳定版
+
+# cache this directory
+cache:
+  directories:
+    - node_modules   # 要缓存的文件夹
+    #- themes 主题没有更改时可以缓存
+# S: Build Lifecycle
+before_install:
+  - npm install -g hexo-cli # 安装 hexo
+#   - git clone https://github.com/fayeloh/hexo-theme-yilia.git # 这个是博主的，主题没有更改时不用每次都下载安装一遍
+
+install:
+  - npm install # 安装 package.json 中的插件
+  - npm install hexo-deployer-git --save  # 安装
+
+script:
+  - echo "${GH_TOKEN}" # 调试使用
+  - hexo clean
+  - hexo generate
+
+after_success:  
+  - cd ./public
+  - git init
+  - git config --global user.name "fayeloh"
+  - git config --global user.email "2247878900@qq.com"
+  - git add .
+  - git commit -m "auto deploy"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
+  - hexo deploy
+
+# 这是一个linux命令  - sed -i "s!github_token!${GH_TOKEN}!g"_config.yml # 使用travisCI中配置的token替换掉_config.yml中对应的占位符
+#  - cat _config.yml
+#  - hexo deploy
+# E: Build LifeCycle
+#替换git config信息为你自己的,GH_REF的值更改为你的仓库地址.
+
+# assign build branches
+branches:
+  only:
+    - sourceCode  # 出发持续集成的分支
+
+env:
+ global:
+   - GH_REF: github.com/fayeloh/fayeloh.github.io.git
