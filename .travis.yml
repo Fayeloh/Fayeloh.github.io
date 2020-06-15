@@ -21,7 +21,7 @@ script:
   - hexo generate
 
 after_success:  
-  - cd ./source/_posts
+  - cd ./public
   - git init
   - git config --global user.name "fayeloh"
   - git config --global user.email "2247878900@qq.com"
